@@ -6,6 +6,14 @@ const reset = document.querySelector('#reset');
 const progress = [...document.querySelectorAll('.progress li')];
 let state = { screen: 'symptom' };
 let history = [];
+let checkStarted = false;
+let recommendationViewed = false;
+
+function trackUsage(name) {
+  if (location.hostname === 'yxhtl.github.io' && typeof window.gtag === 'function') {
+    window.gtag('event', name);
+  }
+}
 
 const questions = {
   symptom: {
@@ -54,6 +62,10 @@ function feedbackCard() {
   return card('仍然失败，就带着对照结果反馈', '记录 Windows 版本、豆包输入法版本、完整错误提示、麦克风型号，以及哪些应用能用、哪些不能用。如果软件提供反馈入口，用这些信息提交。截图前遮住聊天内容。单凭本页回答无法判断是否是软件缺陷。');
 }
 function result() {
+  if (!recommendationViewed) {
+    trackUsage('recommendation_view');
+    recommendationViewed = true;
+  }
   let title, help, cards, retry;
   if (state.mic === 'unknown' || state.mic === 'no') {
     title = state.mic === 'no' ? '先排查收音，再回到豆包测试' : '先做一次麦克风对照检查';
@@ -119,7 +131,13 @@ flow.addEventListener('click', event => {
   }
   if (!choice) return;
   const answer = choice.dataset.answer;
-  if (state.screen === 'symptom') advance({symptom:answer, screen:answer === 'delivery' ? 'scope' : 'microphone'});
+  if (state.screen === 'symptom') {
+    if (!checkStarted) {
+      trackUsage('check_start');
+      checkStarted = true;
+    }
+    advance({symptom:answer, screen:answer === 'delivery' ? 'scope' : 'microphone'});
+  }
   else if (state.screen === 'microphone') advance({symptom:state.symptom, mic:answer, screen:answer === 'yes' ? 'scope' : 'result'});
   else if (state.screen === 'scope') advance({...state, scope:answer, screen:'result'});
 });

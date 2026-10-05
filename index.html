@@ -3,6 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-site-verification" content="pBHkKJALWgEsYoh5x7FHXkiHy3ZJy1XOUQiFGZpVjVI">
+  <link rel="canonical" href="https://yxhtl.github.io/doubao-voice-check/">
+  <script>
+    if (location.hostname === 'yxhtl.github.io' && location.pathname.startsWith('/doubao-voice-check/')) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function() { window.dataLayer.push(arguments); };
+      gtag('js', new Date());
+      gtag('config', 'G-BWNY9P5T3H', {
+        allow_google_signals: false,
+        allow_ad_personalization_signals: false,
+        cookie_prefix: 'doubao_voice',
+        cookie_path: '/doubao-voice-check/'
+      });
+      const voiceAnalyticsScript = document.createElement('script');
+      voiceAnalyticsScript.async = true;
+      voiceAnalyticsScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-BWNY9P5T3H';
+      document.head.append(voiceAnalyticsScript);
+    }
+  </script>
   <meta name="description" content="豆包输入法 Windows 11 语音没反应、启动失败或识别后不上屏？按现象逐步检查麦克风、快捷键和目标应用，区分官方系统步骤与社区用户报告。">
   <meta name="theme-color" content="#174d42">
   <title>豆包输入法 Windows 语音故障排查助手</title>
@@ -56,7 +75,7 @@
       <details><summary>这些步骤的可信程度有什么不同？</summary><div class="details-body"><p><strong>微软文档：</strong>用于核对 Windows 的设备与权限设置，不是豆包的官方故障修复说明。</p><p><strong>排查建议：</strong>用不同输入框做对照、核对快捷键等，用来观察差异；不代表已找到故障原因。</p><p><strong>用户报告：</strong>只说明某人在当时的环境里遇到问题或尝试有效，不能保证适用于你的版本。</p><p>本页未在豆包当前版本中复现故障或验证修复效果。首版提供 Windows 11 路径；Windows 10 用户请查看<a href="https://support.microsoft.com/zh-cn/windows/privacy/turn-on-app-permissions-for-your-microphone-in-windows" target="_blank" rel="noopener noreferrer">微软文档的 Windows 10 部分</a>。</p></div></details>
       <details><summary>“语音启动失败”的报告来自哪里？</summary><div class="details-body"><p>2026 年 9 月 8 日的发布讨论中，有用户报告 Windows 0.9.0 语音启动失败，也有人报告无法唤起语音。这证明有人遇到过该现象，未证明原因或最新版本仍存在同样问题。</p><a href="https://linux.do/t/topic/2875316" target="_blank" rel="noopener noreferrer">查看原始用户讨论 ↗</a></div></details>
       <details><summary>为什么单独检查微信等目标应用？</summary><div class="details-body"><p>2026 年 7 月 17 日，有用户报告 Windows 版在微信中延迟或没有输出，而其他场景正常；讨论中有人反馈退出重开或更新微信后改善。相关版本未完整列明，属于历史用户报告，本页不保证该办法有效。</p><a href="https://linux.do/t/topic/2600111" target="_blank" rel="noopener noreferrer">查看原始用户讨论 ↗</a></div></details>
-      <details><summary>这是豆包官方工具吗？会收集什么？</summary><div class="details-body"><p>这是独立整理的排查页，与豆包官方无隶属关系。页面不录音、不请求麦克风权限、不保存或上传回答，没有统计代码；刷新后本轮选择会清空。资料链接会打开对应的第三方网站。</p><a href="https://shurufa.doubao.com/pc" target="_blank" rel="noopener noreferrer">豆包输入法官方页面 ↗</a></div></details>
+      <details><summary>这是豆包官方工具吗？会收集什么？</summary><div class="details-body"><p>这是独立整理的排查页，与豆包官方无隶属关系。页面不录音、不请求麦克风权限、不保存或上传你的故障答案；刷新后本轮选择会清空。</p><p>线上页面使用 Google Analytics 统计访问、“开始排查”和“看到建议”等操作，用来了解工具是否被使用。每次打开页面，这两个操作最多各记录一次，重新选答案不会重复累计。统计服务会使用 Cookie，并处理页面、来源、设备等访问数据；未启用广告个性化。网络或浏览器屏蔽统计时，排查工具仍可使用。托管平台 GitHub 也会记录用于安全的访问 IP。资料链接会打开对应的第三方网站。</p><p><a href="https://policies.google.com/privacy?hl=zh-CN" target="_blank" rel="noopener noreferrer">Google 隐私说明 ↗</a> · <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection" target="_blank" rel="noopener noreferrer">GitHub 托管数据说明 ↗</a></p><a href="https://shurufa.doubao.com/pc" target="_blank" rel="noopener noreferrer">豆包输入法官方页面 ↗</a></div></details>
     </section>
   </main>
   <footer><span>先把问题说清楚，再试一个办法。</span><span>试验版 · 实际修复效果待验证</span></footer>
