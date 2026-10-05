@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="豆包输入法 Windows 11 语音没反应、启动失败或识别后不上屏？按现象逐步检查麦克风、快捷键和目标应用，区分官方系统步骤与社区用户报告。">
+  <meta name="theme-color" content="#174d42">
+  <title>豆包输入法 Windows 语音故障排查助手</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='12' fill='%23174d42'/%3E%3Cpath d='M20 8v24M13 13v14M27 13v14' stroke='%23ffffff' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#checker">跳到排查工具</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="语音排查助手首页"><span class="brand-icon" aria-hidden="true">▥</span><span>语音排查助手</span></a>
+    <a class="source-nav" href="#sources">依据与适用范围 <span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div class="eyebrow"><span class="status-dot"></span>豆包输入法 · Windows 11</div>
+      <h1 id="page-title">说了话，<br>却没有打出字？</h1>
+      <p class="intro-text">先分清卡在哪一步，再做对应检查。<br class="desktop-break">从你的实际现象开始，不用把所有办法都试一遍。</p>
+      <div class="intro-meta"><span>无需登录</span><span>不录音、不上传回答</span><span>独立整理 · 非官方</span></div>
+    </section>
+
+    <div class="workspace">
+      <section class="checker" id="checker" aria-label="交互排查工具">
+        <div class="checker-top"><span class="section-label">开始排查</span><button class="text-button" id="reset" hidden>重新开始 <span aria-hidden="true">↺</span></button></div>
+        <ol class="progress" aria-label="排查进度">
+          <li aria-current="step"><span>1</span>选择现象</li><li><span>2</span>补充检查</li><li><span>3</span>下一步</li>
+        </ol>
+        <div id="flow"></div>
+        <noscript><div class="note">交互排查需要浏览器启用 JavaScript。你仍可以查看下方的微软检查步骤和资料来源。</div></noscript>
+        <div class="flow-bottom"><button class="text-button" id="back" hidden>← 返回上一步</button><span>页面不会检测或修改你的电脑</span></div>
+      </section>
+      <aside class="side-panel" aria-labelledby="why-title">
+        <div class="side-icon" aria-hidden="true">◎</div>
+        <h2 id="why-title">先定位，再处理</h2>
+        <p>麦克风收音、启动语音、文字送到输入框，是不同的环节。</p>
+        <div class="pipeline"><div><span>01</span>麦克风收音</div><i aria-hidden="true">↓</i><div><span>02</span>豆包启动与识别</div><i aria-hidden="true">↓</i><div><span>03</span>目标应用接收文字</div></div>
+        <p class="side-small">这里只帮你缩小排查范围。回答几道题，不能确定故障原因，也不能证明已经修好。</p>
+      </aside>
+    </div>
+
+    <section class="reference" aria-labelledby="reference-title">
+      <div class="reference-head"><div><span class="section-label">随时可查</span><h2 id="reference-title">两个基础检查</h2></div><p>适用于 Windows 11</p></div>
+      <div class="reference-grid">
+        <article class="reference-card"><span class="evidence official">微软文档 · 系统步骤</span><h3>系统有没有收到声音？</h3><p>打开“设置 → 系统 → 声音 → 输入”，选择你正在使用的麦克风，再进入其属性做麦克风测试。确认耳机的物理静音键未开启。</p><p>这能检查 Windows 收音；不能单独证明豆包能访问麦克风。</p><a href="https://support.microsoft.com/zh-cn/windows/hardware/drivers/fix-microphone-problems" target="_blank" rel="noopener noreferrer">查看微软麦克风排查说明 ↗</a></article>
+        <article class="reference-card"><span class="evidence official">微软文档 · 系统步骤</span><h3>桌面应用能访问麦克风吗？</h3><p>打开“设置 → 隐私和安全性 → 麦克风”，核对“麦克风访问权限”和“允许桌面应用访问你的麦克风”。录音应用也需要相应访问权限。</p><p>桌面应用不能按商店应用的方式逐个开关。不必执着于在单独的应用列表里找到豆包。</p><a href="https://support.microsoft.com/zh-cn/windows/privacy/turn-on-app-permissions-for-your-microphone-in-windows" target="_blank" rel="noopener noreferrer">查看微软权限说明 ↗</a></article>
+      </div>
+    </section>
+
+    <section class="sources" id="sources" aria-labelledby="sources-title">
+      <div class="reference-head"><div><span class="section-label">把依据说清楚</span><h2 id="sources-title">来源与适用范围</h2></div><p>资料核对：2026 年 10 月 5 日</p></div>
+      <details><summary>这些步骤的可信程度有什么不同？</summary><div class="details-body"><p><strong>微软文档：</strong>用于核对 Windows 的设备与权限设置，不是豆包的官方故障修复说明。</p><p><strong>排查建议：</strong>用不同输入框做对照、核对快捷键等，用来观察差异；不代表已找到故障原因。</p><p><strong>用户报告：</strong>只说明某人在当时的环境里遇到问题或尝试有效，不能保证适用于你的版本。</p><p>本页未在豆包当前版本中复现故障或验证修复效果。首版提供 Windows 11 路径；Windows 10 用户请查看<a href="https://support.microsoft.com/zh-cn/windows/privacy/turn-on-app-permissions-for-your-microphone-in-windows" target="_blank" rel="noopener noreferrer">微软文档的 Windows 10 部分</a>。</p></div></details>
+      <details><summary>“语音启动失败”的报告来自哪里？</summary><div class="details-body"><p>2026 年 9 月 8 日的发布讨论中，有用户报告 Windows 0.9.0 语音启动失败，也有人报告无法唤起语音。这证明有人遇到过该现象，未证明原因或最新版本仍存在同样问题。</p><a href="https://linux.do/t/topic/2875316" target="_blank" rel="noopener noreferrer">查看原始用户讨论 ↗</a></div></details>
+      <details><summary>为什么单独检查微信等目标应用？</summary><div class="details-body"><p>2026 年 7 月 17 日，有用户报告 Windows 版在微信中延迟或没有输出，而其他场景正常；讨论中有人反馈退出重开或更新微信后改善。相关版本未完整列明，属于历史用户报告，本页不保证该办法有效。</p><a href="https://linux.do/t/topic/2600111" target="_blank" rel="noopener noreferrer">查看原始用户讨论 ↗</a></div></details>
+      <details><summary>这是豆包官方工具吗？会收集什么？</summary><div class="details-body"><p>这是独立整理的排查页，与豆包官方无隶属关系。页面不录音、不请求麦克风权限、不保存或上传回答，没有统计代码；刷新后本轮选择会清空。资料链接会打开对应的第三方网站。</p><a href="https://shurufa.doubao.com/pc" target="_blank" rel="noopener noreferrer">豆包输入法官方页面 ↗</a></div></details>
+    </section>
+  </main>
+  <footer><span>先把问题说清楚，再试一个办法。</span><span>试验版 · 实际修复效果待验证</span></footer>
+</body>
+</html>
