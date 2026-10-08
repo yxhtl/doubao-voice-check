@@ -25,6 +25,15 @@ const questions = {
       ['delivery', '识别出文字，却没进输入框', '能看到识别结果，目标应用里没有文字']
     ]
   },
+  trigger: {
+    title: '用鼠标点语音按钮，能说话并打出文字吗？',
+    help: '在普通文本框里切到豆包输入法，用鼠标点当前版本的语音按钮，再说一句话。找不到这个入口时选“不确定”，不要把没有入口当作启动失败。',
+    choices: [
+      ['yes', '鼠标能用，只有快捷键没反应', '先核对快捷键，不必从麦克风检查重新开始'],
+      ['no', '鼠标也不能正常输入', '继续比较收音、权限和目标应用'],
+      ['unknown', '还没试，或找不到语音按钮', '先补这个对照，暂不判断原因']
+    ]
+  },
   microphone: {
     title: '同一个麦克风，其他软件能录到声音吗？',
     help: '用 Windows 录音应用等录一小段并回放，确认测试的是同一个麦克风。只看到设备名称，不算录音成功。',
@@ -48,6 +57,7 @@ const source = {
   microphone: ['微软麦克风排查说明', 'https://support.microsoft.com/zh-cn/windows/hardware/drivers/fix-microphone-problems'],
   permission: ['微软麦克风权限说明', 'https://support.microsoft.com/zh-cn/windows/privacy/turn-on-app-permissions-for-your-microphone-in-windows'],
   launch: ['2026 年 9 月 8 日用户讨论', 'https://linux.do/t/topic/2875316'],
+  shortcut: ['2026 年 9 月 24 日快捷键失效讨论', 'https://linux.do/t/topic/2947206'],
   target: ['2026 年 7 月 17 日用户讨论', 'https://linux.do/t/topic/2600111']
 };
 function card(title, body, kind = '排查建议 · 待实际验证', ref) {
@@ -67,7 +77,16 @@ function result() {
     recommendationViewed = true;
   }
   let title, help, cards, retry;
-  if (state.mic === 'unknown' || state.mic === 'no') {
+  if (state.symptom === 'silent' && state.trigger === 'yes') {
+    title = '先处理快捷键触发，不必重查整条语音链路';
+    help = '你报告鼠标能启动语音并输入文字。这次对照支持先检查快捷键，但不能单独确定冲突或软件缺陷。';
+    cards = [card('核对豆包设置里的实际语音快捷键', '确认当前输入法是豆包，在软件设置中核对当前语音快捷键。用记事本同一个输入框分别测试鼠标和快捷键，不要用 Windows 自带语音快捷键代替豆包测试。'), card('一次只调整一个快捷键，再做对照', '若当前版本允许修改语音快捷键，可选一个与其他正在运行的软件不重复的组合，保存后再试。先记下原设置，方便恢复；测试一次后重新打开软件再测，观察设置是否仍有效。'), card('把“重新设置后才恢复”作为反馈线索', '2026 年 9 月 24 日有用户报告鼠标按钮能用、快捷键反复失效，重新设置后恢复；回复中也有重启等经验。这些没有统一复现，不能保证修好当前版本。记录是否重开后再次失效，比反复重装更有助于反馈。', '用户报告 · 未在当前版本复现', 'shortcut'), feedbackCard()];
+  } else if (state.symptom === 'silent' && state.trigger === 'unknown') {
+    title = '先比较鼠标入口与语音快捷键';
+    help = '现在只知道快捷键没反应，还不能判断是触发问题，还是语音本身不能用。';
+    cards = [card('在普通文本框里试鼠标语音入口', '点击记事本的编辑区域，切到豆包输入法，找到当前版本提供的语音按钮。用鼠标启动后试一句，观察是否出现语音界面、是否识别、是否送入输入框。'), card('没有找到入口，就记录版本和界面', '不要按别的版本教程猜按钮位置。记录豆包输入法版本和设置界面，再通过软件提供的帮助或反馈入口确认。找不到入口并不等于麦克风故障。')];
+    retry = 'trigger';
+  } else if (state.mic === 'unknown' || state.mic === 'no') {
     title = state.mic === 'no' ? '先排查收音，再回到豆包测试' : '先做一次麦克风对照检查';
     help = state.mic === 'no' ? '其他软件也没录到声音。目前还不能把故障归因于豆包。' : '现在缺少收音结果，先补这个检查会更有用。';
     cards = [card('检查连接、静音和输入设备', '确认耳机或麦克风已连接，物理静音关闭。在“设置 → 系统 → 声音 → 输入”中选择实际使用的设备，进入其属性做麦克风测试。', '微软文档 · 系统步骤', 'microphone'), permissionCard(), card('在录音应用里回放，再试豆包', '给用于测试的录音应用相应权限，录一句话并回放。能听见后，再用豆包试同一句。如果仍然不行，返回工具继续区分是单个应用还是多个应用。')];
@@ -95,6 +114,7 @@ function result() {
     cards = [card('确认输入框可以接收普通文字', '在记事本里先手动打一小段文字，再点回编辑区域试豆包语音。如果普通键盘输入也不行，先处理输入框或输入法的基础输入问题。'), card('区分识别结果与最终输入', '记录识别文字出现在哪里、是否有确认动作，以及确认后发生了什么。按你当前版本的实际界面操作，不假定所有版本都有相同按钮。'), feedbackCard()];
   }
   const labels = [questions.symptom.choices.find(c => c[0] === state.symptom)[1]];
+  if (state.trigger) labels.push({yes:'鼠标语音能输入',no:'鼠标语音也异常',unknown:'鼠标入口未确认'}[state.trigger]);
   if (state.mic) labels.push({yes:'其他软件能录音',no:'其他软件不能录音',unknown:'麦克风未测试'}[state.mic]);
   if (state.scope) labels.push({single:'仅原应用异常',all:'多个应用异常',unknown:'未比较输入框'}[state.scope]);
   flow.innerHTML = `<span class="result-tag">按你的回答，建议先做这些检查</span><h2 tabindex="-1">${title}</h2><p class="help">${help}</p><div class="answer-summary" aria-label="你的选择">${labels.map(l=>`<span>${l}</span>`).join('')}</div><ol class="steps">${cards.join('')}</ol><p class="boundary">一次只改一个条件，再用同一句话复测。以上是检查顺序，未证明原因或修复效果。</p>${retry ? `<button class="primary" data-retry="${retry}">检查后，重新回答这一步 →</button>` : ''}`;
@@ -125,6 +145,10 @@ flow.addEventListener('click', event => {
   const retry = event.target.closest('[data-retry]');
   if (retry) {
     const next = {...state, screen: retry.dataset.retry};
+    if (next.screen === 'trigger') {
+      delete next.trigger;
+      delete next.mic;
+    }
     if (next.screen === 'microphone') delete next.mic;
     delete next.scope;
     advance(next);
@@ -136,9 +160,10 @@ flow.addEventListener('click', event => {
       trackUsage('check_start');
       checkStarted = true;
     }
-    advance({symptom:answer, screen:answer === 'delivery' ? 'scope' : 'microphone'});
+    advance({symptom:answer, screen:answer === 'delivery' ? 'scope' : answer === 'silent' ? 'trigger' : 'microphone'});
   }
-  else if (state.screen === 'microphone') advance({symptom:state.symptom, mic:answer, screen:answer === 'yes' ? 'scope' : 'result'});
+  else if (state.screen === 'trigger') advance({...state, trigger:answer, screen:answer === 'no' ? 'microphone' : 'result'});
+  else if (state.screen === 'microphone') advance({...state, mic:answer, screen:answer === 'yes' ? 'scope' : 'result'});
   else if (state.screen === 'scope') advance({...state, scope:answer, screen:'result'});
 });
 back.addEventListener('click', () => { if (history.length) {state = history.pop(); render();} });
